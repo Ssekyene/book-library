@@ -1,1 +1,67 @@
 @import url(./reset.css);
+
+:root.theme-light {
+  --color-bg-base: #F8FAFD;
+  --color-bg-alt: #FFFFFF;
+  --color-text: #1F1F1F;
+  --color-primary: #1e90ff;
+  --color-secondary: #ff6347;
+  --color-border: #dddddd;
+}
+:root.theme-dark {
+  --color-bg-base: #1F1F1F;
+  --color-bg-alt: #121212;
+  --color-text: #F8FAFD;
+  --color-primary: #1e90ff;
+  --color-secondary: #ff6347;
+  --color-border: #444444;
+}
+
+body {
+    background-color: var(--color-bg-base);
+    color: var(--color-text);
+    padding: 0.9rem;
+    font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows: 4.3rem 5.6rem 1fr 4.3rem;
+    
+    grid-template-areas:
+      "aside header"
+      "aside main"
+      "aside main"
+      "footer footer";
+}
+
+.side-bar {
+    grid-area: aside;
+    background-color: var(--color-primary);
+}
+
+header {
+    grid-area: header;
+    background-color: var(--color-bg-base);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 16px;
+
+}
+
+main {
+    grid-area: main;
+    background-color: var(--color-bg-alt);
+    border: none;
+    border-radius: 16px;
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+    padding: 16px;
+    overflow-y: auto;
+}
+
+footer {
+    grid-area: footer;
+    height: 64px;
+    background-color: var(--color-bg-base);
+}
