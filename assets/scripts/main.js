@@ -1,4 +1,20 @@
 const root = document.documentElement;
+const newBkDialog = document.querySelector('#new-bk-dialog');
+const newBkBtn = document.querySelector('#new-bk-btn');
+const confirmBkBtn = document.querySelector('#confirm-btn')
+
+
+newBkBtn.addEventListener('click', () => {
+  newBkDialog.showModal();
+});
+
+confirmBkBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  // ...code
+});
+
+
+
 root.className = 'theme-light';
 
 const myLibrary = [];

@@ -54,6 +54,7 @@ button {
     cursor: pointer;
     font-family: inherit;
     font-size: 1rem;
+    outline: none;
 }
 
 .side-bar {
@@ -121,6 +122,13 @@ main {
     box-shadow: 1px 1px 4px rgba(0,0,0,0.1);
     padding: 16px;
     overflow-y: auto;
+}
+
+section.welcome {
+    font-size: 1.8rem;
+    font-weight: 400;
+    padding: 0.5em 0;
+    border-bottom: var(--color-border) 1px solid;
 }
 
 footer {
