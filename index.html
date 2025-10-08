@@ -7,34 +7,34 @@
     <link rel="stylesheet" href="./assets/stylesheets/main.css">
 </head>
 <body>
-    <dialog closedby="any" class="add-bk-modal" id="new-bk-dialog">
-        <form class="add-bk-form">
-            <h1>New BooK</h1>
-            <div>
+    <dialog closedby="any" class="bk-modal" id="bk-dialog">
+        <form class="bk-form">
+            <h1 class="bk-form-header">New BooK</h1>
+            <div class="field">
                 <label for="bk-title">
                     Book Title
                     <input type="text" id="bk-title">
                 </label>
             </div>
-            <div>
+            <div class="field">
                 <label for="author">
                     Author
                     <input type="text" id="author">
                 </label>
             </div>
-            <div>
+            <div class="field">
                 <label for="pages">
                     Number of Pages
                     <input type="number" id="pages">
                 </label>
             </div>
-            <div>
-                <label for="read">
+            <div class="field">
+                <label for="read" class="read-label">
                     Read
                     <input type="checkbox" id="read">
                 </label>
             </div>
-            <div>
+            <div class="bk-form-btns">
                 <button class="cancel" id="cancel-btn" formmethod="dialog" value="cancel">Cancel</button>
                 <button class="confirm" id="confirm-btn">Add</button>
             </div>
@@ -48,8 +48,8 @@
     <aside class="side-bar">
         <section class="branding"><a href="#"><img src="./assets/images/logo.jpg" alt="" width="50" class="logo">Book Lib</a></section>
         <section class="tasks">
-            <button class="add-btn" id="new-bk-btn">
-                <svg class="Q6yead QJZfhe " width="24" height="24" viewBox="0 0 24 24" focusable="false"><path d="M20 13h-7v7h-2v-7H4v-2h7V4h2v7h7v2z"></path></svg> New
+            <button class="bk-btn" id="bk-btn">
+                <svg class="" width="24" height="24" viewBox="0 0 24 24" focusable="false"><path d="M20 13h-7v7h-2v-7H4v-2h7V4h2v7h7v2z"></path></svg> New
             </button>
         </section>
         

@@ -1,12 +1,16 @@
 @import url(./reset.css);
 
+:root {
+    --color-primary: #1e90ff;
+    --color-danger: #ff6347;
+    --color-success: #32cd32;
+}
+
 :root.theme-light {
   --color-bg-base: #F8FAFD;
   --color-bg-alt: #FFFFFF;
   --color-bg-content: #E9EEF6;
   --color-text: #1F1F1F;
-  --color-primary: #1e90ff;
-  --color-secondary: #ff6347;
   --color-border: #dddddd;
 }
 :root.theme-dark {
@@ -14,8 +18,6 @@
   --color-bg-alt: #121212;
   --color-bg-content: #0D1117;
   --color-text: #F8FAFD;
-  --color-primary: #1e90ff;
-  --color-secondary: #ff6347;
   --color-border: #444444;
 }
 
@@ -57,6 +59,105 @@ button {
     outline: none;
 }
 
+input {
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-bg-base);
+    color: var(--color-text);
+    width: 100%;
+}
+
+.bk-modal {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 1px 1px 8px rgba(0,0,0,0.2);
+    width: min(36%, 400px);
+    padding: 16px;
+    background-color: var(--color-bg-alt);
+    color: var(--color-text);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bk-modal::backdrop {
+    background-color: rgba(0,0,0,0.4);
+}
+
+.bk-form {
+    display: grid;
+    gap: 16px;
+}
+
+.bk-form-header {
+    font-size: 1.5rem;
+    font-weight: 500;
+    border-bottom: var(--color-border) 1px solid;
+    padding-bottom: 8px;
+    text-align: center;
+}
+
+.field input:not([type="checkbox"]){
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 400;
+    padding: 6px 8px;
+    margin: 8px 0;
+}
+
+.field input:not([type="checkbox"]):focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 3px var(--color-primary);
+}
+
+.field label {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.field .read-label {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: inherit;
+
+}
+
+.bk-form-btns {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+
+.bk-form-btns button {
+    padding: 0.6em 1.2em;
+    border: none;
+    border-radius: 0.5em;
+    color: var(--color-text);
+    font-weight: 400;
+    transition: background-color 0.2s ease-out;
+}
+
+.bk-form-btns button:hover {
+    filter: brightness(0.9);
+}
+
+.bk-form-btns .cancel {
+    background-color: var(--color-danger);
+}
+
+.bk-form-btns .confirm {
+    background-color: var(--color-success);
+}
+
 .side-bar {
     grid-area: aside;
     padding: 6px;
@@ -86,7 +187,7 @@ button {
 
 }
 
-.add-btn {
+.bk-btn {
     padding: 1em 1.2em;
     border: none;
     border-radius: 1em;
@@ -99,7 +200,7 @@ button {
     
 }
 
-.add-btn:hover {
+.bk-btn:hover {
     box-shadow: 1px 1px 8px rgba(0,0,0, 0.4);
     background-color: var(--color-bg-content);
 }

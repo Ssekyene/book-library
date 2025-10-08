@@ -1,6 +1,6 @@
 const root = document.documentElement;
-const newBkDialog = document.querySelector('#new-bk-dialog');
-const newBkBtn = document.querySelector('#new-bk-btn');
+const newBkDialog = document.querySelector('#bk-dialog');
+const newBkBtn = document.querySelector('#bk-btn');
 const confirmBkBtn = document.querySelector('#confirm-btn')
 
 
