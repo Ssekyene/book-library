@@ -37,8 +37,8 @@
 
 @font-face {
     font-family: 'Arima Koshi';
-    src: url('ArimaKoshi-Regular.woff2') format('woff2'),
-        url('ArimaKoshi-Regular.woff') format('woff');
+    src: url('../fonts/ArimaKoshi-Regular.woff2') format('woff2'),
+        url('../fonts/ArimaKoshi-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
