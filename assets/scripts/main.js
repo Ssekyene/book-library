@@ -36,16 +36,16 @@ addBookToLibrary("Rich Dad Poor Dad", "Robert Kiyosaki and Sharon Lechter", 200,
 addBookToLibrary("Game of Thrones", "George RR Martin", 487, true);
 addBookToLibrary("Inside the Object", "David M. Papurt", 500, false);
 displayBooks(myLibrary);
-addReadToggleEventListeners();
+addReadToggleEventListener();
 
 
-function addReadToggleEventListeners() {
+function addReadToggleEventListener() {
   const readToggles = document.querySelectorAll('.read-toggle');
   readToggles.forEach(readToggle => {
     readToggle.addEventListener('click', (e) =>{
       const bookId = e.target.id;
       const book = myLibrary.find(book => book.id === bookId);
-      book.read = !book.read;
+      book.changeReadStatus();
       const statusSpan = e.target.closest('.read').querySelector('.status');
       statusSpan.textContent = book.read === true ? 'unread' : 'read';
   
@@ -71,6 +71,10 @@ function Book(title, author, numOfPages, read) {
   this.author = author;
   this.numOfPages = numOfPages;
   this.read = read;  
+}
+
+Book.prototype.changeReadStatus = function () {
+  this.read = !this.read;
 }
 
 

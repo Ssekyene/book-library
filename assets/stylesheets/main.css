@@ -185,11 +185,16 @@ input[type="checkbox"] {
     gap: 16px;
 }
 
+.side-bar section {
+    position: sticky;
+}
+
 .branding {
     font-weight: 900;
-    font-size: 1.5rem;
+    font-size: clamp(18px, calc(1.8vw + 0.2rem), 1.5rem);
     font-family: 'Roman SD', serif;
     height: 4.3rem;
+    top: 0.6rem;
 }
 
 .branding > a {
@@ -205,8 +210,12 @@ input[type="checkbox"] {
 
 }
 
+section.tasks {
+    top: calc(0.6rem + 4.3rem + 16px);
+}
+
 .bk-btn {
-    padding: 1em 1.2em;
+    padding: 0.9em 1.1em;
     border: none;
     border-radius: 1em;
     background-color: var(--color-bg-alt);
@@ -215,7 +224,6 @@ input[type="checkbox"] {
     gap: 8px;
     box-shadow: 1px 1px 4px var(--color-box-shadow);
     transition: background-color 0.2s ease-out;
-    
 }
 
 .bk-btn:hover {
@@ -275,7 +283,7 @@ section.welcome {
 .book-list .card:hover {
     transform: translateY(-1px);
     box-shadow: 1px 1px 5px var(--color-box-shadow);
-    filter: brightness(1.05);
+    filter: brightness(0.9);
 }
 
 .book-list .card-content,
@@ -343,12 +351,13 @@ section.welcome {
     border-radius: 8px;
     background-color: var(--color-danger);
     color: var(--color-light);
+    font-weight: 500;
     transition: filter 0.2s ease-out;
     user-select: none;
 }
 
 .remove-card-btn:hover {
-    filter: brightness(0.8);
+    filter: brightness(0.9);
 }
 
 .card .title {
