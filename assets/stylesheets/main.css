@@ -369,6 +369,7 @@ section.welcome {
 .author .name {
     font-size: 1rem;
     font-weight: 600;
+    text-transform: capitalize;
 }
 
 .card .num-of-pages {

@@ -1,7 +1,8 @@
 const root = document.documentElement;
 const newBkDialog = document.querySelector('#bk-dialog');
 const newBkBtn = document.querySelector('#bk-btn');
-const confirmBkBtn = document.querySelector('#confirm-btn');
+const bookForm = document.querySelector('#bk-form');
+const confirmBtn = document.querySelector('#confirm-btn');
 
 
 
@@ -9,9 +10,19 @@ newBkBtn.addEventListener('click', () => {
   newBkDialog.showModal();
 });
 
-confirmBkBtn.addEventListener('click', (e) => {
+confirmBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  // ...code
+  const formData = new FormData(bookForm);
+  const title = formData.get('title');
+  const author = formData.get('author');
+  const numOfPages = parseInt(formData.get('pages'), 10);
+  const read = formData.get('read') === 'on' ? true : false;
+
+  addBookToLibrary(title, author, numOfPages, read);
+  addBookToDisplay(myLibrary[myLibrary.length - 1]);
+  newBkDialog.close();
+  bookForm.reset();
+  addReadToggleEventListeners();
 });
 
 
@@ -25,26 +36,29 @@ addBookToLibrary("Rich Dad Poor Dad", "Robert Kiyosaki and Sharon Lechter", 200,
 addBookToLibrary("Game of Thrones", "George RR Martin", 487, true);
 addBookToLibrary("Inside the Object", "David M. Papurt", 500, false);
 displayBooks(myLibrary);
+addReadToggleEventListeners();
 
 
-const readToggles = document.querySelectorAll('.read-toggle');
-readToggles.forEach(readToggle => {
-  readToggle.addEventListener('click', (e) =>{
-    const bookId = e.target.id;
-    const book = myLibrary.find(book => book.id === bookId);
-    book.read = !book.read;
-    const statusSpan = e.target.closest('.read').querySelector('.status');
-    statusSpan.textContent = book.read === true ? 'unread' : 'read';
-
-    const checkboxInput = e.target.closest('.read').querySelector('input[type="checkbox"]');
-    if(book.read) {
-      checkboxInput.setAttribute('checked', '');
-    } else {
-      checkboxInput.removeAttribute('checked');
-    }
+function addReadToggleEventListeners() {
+  const readToggles = document.querySelectorAll('.read-toggle');
+  readToggles.forEach(readToggle => {
+    readToggle.addEventListener('click', (e) =>{
+      const bookId = e.target.id;
+      const book = myLibrary.find(book => book.id === bookId);
+      book.read = !book.read;
+      const statusSpan = e.target.closest('.read').querySelector('.status');
+      statusSpan.textContent = book.read === true ? 'unread' : 'read';
   
+      const checkboxInput = e.target.closest('.read').querySelector('input[type="checkbox"]');
+      if(book.read) {
+        checkboxInput.setAttribute('checked', '');
+      } else {
+        checkboxInput.removeAttribute('checked');
+      }
+    
+    });
   });
-});
+}
 
 
 function Book(title, author, numOfPages, read) {
