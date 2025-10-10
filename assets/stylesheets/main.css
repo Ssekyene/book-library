@@ -493,4 +493,21 @@ footer {
     grid-area: footer;
     height: 64px;
     background-color: var(--color-bg-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+footer .project-details {
+     font-size: 0.9rem;
+    font-weight: 400;
+}
+
+footer .project-details a {
+    color: var(--color-text);
+}
+
+footer .project-details a:hover {
+    text-decoration: underline;
+}
+
