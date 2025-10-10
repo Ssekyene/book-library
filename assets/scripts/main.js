@@ -4,14 +4,31 @@ const newBkBtn = document.querySelector('#bk-btn');
 const bookForm = document.querySelector('#bk-form');
 const confirmBtn = document.querySelector('#confirm-btn');
 const removeBookBtns = document.querySelectorAll('.remove-card-btn');
+const darkThemeIcon = document.querySelector('#dark-theme-icon');
+const lightThemeIcon = document.querySelector('#light-theme-icon');
+const themeToggleBtn = document.querySelector('#theme-toggle-btn');
 
+themeToggleBtn.addEventListener('click', setTheme);
 
 
 newBkBtn.addEventListener('click', () => {
   newBkDialog.showModal();
 });
 
-confirmBtn.addEventListener('click', (e) => {
+confirmBtn.addEventListener('click', submitBookForm);
+
+root.className = 'theme-light';
+const myLibrary = [];
+
+addBookToLibrary("48 Laws Of Power", "Robert Green", 354, true);
+addBookToLibrary("Atomic Habbits", "James Clear", 274, false);
+addBookToLibrary("Rich Dad Poor Dad", "Robert Kiyosaki and Sharon Lechter", 200, true);
+addBookToLibrary("Game of Thrones", "George RR Martin", 487, true);
+addBookToLibrary("Inside the Object", "David M. Papurt", 500, false);
+displayBooks(myLibrary);
+
+
+function submitBookForm(e) {
   e.preventDefault();
   if(bookForm.checkValidity()) {
     const formData = new FormData(bookForm);
@@ -28,19 +45,21 @@ confirmBtn.addEventListener('click', (e) => {
   } else {
     bookForm.reportValidity();
   }
-});
+}
 
 
+function setTheme() {
+  const root = document.documentElement;
+  root.className = root.className === 'theme-dark' ? 'theme-light' : 'theme-dark';
 
-root.className = 'theme-light';
-const myLibrary = [];
-
-addBookToLibrary("48 Laws Of Power", "Robert Green", 354, true);
-addBookToLibrary("Atomic Habbits", "James Clear", 274, false);
-addBookToLibrary("Rich Dad Poor Dad", "Robert Kiyosaki and Sharon Lechter", 200, true);
-addBookToLibrary("Game of Thrones", "George RR Martin", 487, true);
-addBookToLibrary("Inside the Object", "David M. Papurt", 500, false);
-displayBooks(myLibrary);
+  if (root.className === 'theme-dark') {
+      lightThemeIcon.classList.remove('hidden');
+      darkThemeIcon.classList.add('hidden');
+  } else {
+    darkThemeIcon.classList.remove('hidden');
+    lightThemeIcon.classList.add('hidden');
+  }
+}
 
 
 function removeBookFromLibrary(book)  {
