@@ -13,19 +13,19 @@
             <div class="field">
                 <label for="bk-title">
                     Book Title
-                    <input type="text" id="bk-title" name="title">
+                    <input type="text" id="bk-title" name="title" required>
                 </label>
             </div>
             <div class="field">
                 <label for="author">
                     Author
-                    <input type="text" id="author" name="author">
+                    <input type="text" id="author" name="author" required>
                 </label>
             </div>
             <div class="field">
                 <label for="pages">
                     Number of Pages
-                    <input type="number" id="pages" name="pages">
+                    <input type="number" id="pages" name="pages" required>
                 </label>
             </div>
             <div class="field">
@@ -35,7 +35,7 @@
                 </label>
             </div>
             <div class="bk-form-btns">
-                <button class="cancel" id="cancel-btn" formmethod="dialog" value="cancel">Cancel</button>
+                <button class="cancel" id="cancel-btn" formmethod="dialog" value="cancel" formnovalidate>Cancel</button>
                 <button class="confirm" id="confirm-btn">Add</button>
             </div>
         </form>

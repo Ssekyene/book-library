@@ -3,6 +3,7 @@ const newBkDialog = document.querySelector('#bk-dialog');
 const newBkBtn = document.querySelector('#bk-btn');
 const bookForm = document.querySelector('#bk-form');
 const confirmBtn = document.querySelector('#confirm-btn');
+const removeBookBtns = document.querySelectorAll('.remove-card-btn');
 
 
 
@@ -12,17 +13,21 @@ newBkBtn.addEventListener('click', () => {
 
 confirmBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  const formData = new FormData(bookForm);
-  const title = formData.get('title');
-  const author = formData.get('author');
-  const numOfPages = parseInt(formData.get('pages'), 10);
-  const read = formData.get('read') === 'on' ? true : false;
+  if(bookForm.checkValidity()) {
+    const formData = new FormData(bookForm);
+    const title = formData.get('title');
+    const author = formData.get('author');
+    const numOfPages = parseInt(formData.get('pages'), 10);
+    const read = formData.get('read') === 'on' ? true : false;
 
-  addBookToLibrary(title, author, numOfPages, read);
-  addBookToDisplay(myLibrary[myLibrary.length - 1]);
-  newBkDialog.close();
-  bookForm.reset();
-  addReadToggleEventListeners();
+    addBookToLibrary(title, author, numOfPages, read);
+    addBookToDisplay(myLibrary[myLibrary.length - 1]);
+    newBkDialog.close();
+    bookForm.reset();
+    addReadToggleEventListeners();
+  } else {
+    bookForm.reportValidity();
+  }
 });
 
 
@@ -36,29 +41,21 @@ addBookToLibrary("Rich Dad Poor Dad", "Robert Kiyosaki and Sharon Lechter", 200,
 addBookToLibrary("Game of Thrones", "George RR Martin", 487, true);
 addBookToLibrary("Inside the Object", "David M. Papurt", 500, false);
 displayBooks(myLibrary);
-addReadToggleEventListener();
 
 
-function addReadToggleEventListener() {
-  const readToggles = document.querySelectorAll('.read-toggle');
-  readToggles.forEach(readToggle => {
-    readToggle.addEventListener('click', (e) =>{
-      const bookId = e.target.id;
-      const book = myLibrary.find(book => book.id === bookId);
-      book.changeReadStatus();
-      const statusSpan = e.target.closest('.read').querySelector('.status');
-      statusSpan.textContent = book.read === true ? 'unread' : 'read';
-  
-      const checkboxInput = e.target.closest('.read').querySelector('input[type="checkbox"]');
-      if(book.read) {
-        checkboxInput.setAttribute('checked', '');
-      } else {
-        checkboxInput.removeAttribute('checked');
-      }
-    
-    });
-  });
+function removeBookFromLibrary(book)  {
+  book.remove();
+  removeBookFromDisplay(book);
 }
+
+function removeBookFromDisplay(book) {
+  const bookListSection = document.querySelector('#book-list');
+  const bookCard = bookListSection.querySelector(`div.card[data-id="${book.id}"]`);
+  if(bookCard) {
+    bookListSection.removeChild(bookCard);
+  }
+}
+
 
 
 function Book(title, author, numOfPages, read) {
@@ -73,8 +70,15 @@ function Book(title, author, numOfPages, read) {
   this.read = read;  
 }
 
-Book.prototype.changeReadStatus = function () {
+Book.prototype.toggleReadStatus = function () {
   this.read = !this.read;
+}
+
+Book.prototype.remove = function() {
+  const bookIndex = myLibrary.findIndex(book => book.id === this.id);
+  if(bookIndex !== -1) {
+    myLibrary.splice(bookIndex, 1);
+  }
 }
 
 
@@ -119,5 +123,34 @@ function addBookToDisplay(book) {
   bookCard.setAttribute('data-id', book.id);
   bookCard.innerHTML = setBookCardHTML(book);
   bookListSection.appendChild(bookCard);
+  addReadToggleEventListener(book);
+  addRemoveEventListener(book);
 
+}
+
+
+function addReadToggleEventListener(book) {
+  const bookCard = document.querySelector(`div.card[data-id="${book.id}"]`);
+  const checkboxInput = bookCard.querySelector('.read-toggle input[type="checkbox"]');
+  checkboxInput.addEventListener('change', (e) => {
+    book.toggleReadStatus();
+    const statusSpan = e.target.closest('.read').querySelector('.status');
+    statusSpan.textContent = book.read === true ? 'unread' : 'read';
+
+    // toggle checkbox attribute based on the book read status
+    if(book.read) {
+      checkboxInput.setAttribute('checked', '');
+    } else {
+      checkboxInput.removeAttribute('checked');
+    }
+    
+  });
+}
+
+function addRemoveEventListener(book) {
+  const bookCard = document.querySelector(`div.card[data-id="${book.id}"]`);
+  const removeBtn = bookCard.querySelector('.remove-card-btn');
+  removeBtn.addEventListener('click', () => {
+    removeBookFromLibrary(book);
+  });
 }
