@@ -97,7 +97,12 @@ svg {
     display: none;
 }
 
-.bk-modal {
+dialog.bk-modal:open {
+    opacity: 1;
+    transform: scale(1,1) translate(-50%, -50%);
+}
+
+dialog.bk-modal {
     border: none;
     border-radius: 16px;
     box-shadow: 1px 1px 8px rgba(0,0,0,0.2);
@@ -108,10 +113,38 @@ svg {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    opacity: 0;
+    transform: scaleY(0,0) translate(-50%, -50%);
+    transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out,
+    overlay 0.7s ease-out allow-discrete,
+    display 0.7s ease-out allow-discrete;
 }
 
-.bk-modal::backdrop {
+@starting-style {
+    dialog.bk-modal:open {
+        opacity: 0;
+        transform: scaleY(0,0) translate(-50%, -50%);
+    }
+}
+
+dialog.bk-modal::backdrop {
+    background-color: transparent;
+    transition:
+    display 0.7s allow-discrete,
+    overlay 0.7s allow-discrete,
+    background-color 0.7s;
+}
+
+dialog.bk-modal:open::backdrop {
     background-color: rgba(0,0,0,0.4);
+}
+
+@starting-style {
+    dialog.bk-modal:open::backdrop {
+        background-color: transparent;
+    }
 }
 
 .bk-form {
@@ -379,7 +412,33 @@ section.welcome {
     justify-content: space-between;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    transform: scale(1);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, transform 0.7s ease-out;
+}
+
+@starting-style {
+    .book-list .card {
+        transform: scale(1.2);
+    }
+}
+
+.book-list .card.removing {
+    animation: card-remove-zoom 0.5s forwards;
+}
+
+@keyframes card-remove-zoom {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    30% {
+        opacity: 1;
+        transform: scale(1.2); /* Zoom in slightly */
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.7); /* Shrink and fade out */
+    }
 }
 
 .book-list .card:hover {
@@ -510,4 +569,3 @@ footer .project-details a {
 footer .project-details a:hover {
     text-decoration: underline;
 }
-

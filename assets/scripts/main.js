@@ -17,7 +17,15 @@ newBkBtn.addEventListener('click', () => {
 
 confirmBtn.addEventListener('click', submitBookForm);
 
-root.className = 'theme-light';
+root.className = 'theme-dark';
+if (root.className === 'theme-dark') {
+    lightThemeIcon.classList.remove('hidden');
+    darkThemeIcon.classList.add('hidden');
+} else {
+  darkThemeIcon.classList.remove('hidden');
+  lightThemeIcon.classList.add('hidden');
+}
+
 const myLibrary = [];
 
 addBookToLibrary("48 Laws Of Power", "Robert Green", 354, true);
@@ -71,7 +79,10 @@ function removeBookFromDisplay(book) {
   const bookListSection = document.querySelector('#book-list');
   const bookCard = bookListSection.querySelector(`div.card[data-id="${book.id}"]`);
   if(bookCard) {
-    bookListSection.removeChild(bookCard);
+    bookCard.classList.add('removing');
+    bookCard.addEventListener('transitionend', () => {
+        bookListSection.removeChild(bookCard);
+    });
   }
 }
 
