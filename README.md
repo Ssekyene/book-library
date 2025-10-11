@@ -14,6 +14,7 @@
 
 ## Todos
 - [ ] Implement responsive design for mobile devices.
+- [ ] Add grid/list view toggle.
 - [ ] Implement local storage to save the library between sessions.
 - [ ] Add search and filter functionality.
 - [ ] Improve UI/UX with better styling and animations.
