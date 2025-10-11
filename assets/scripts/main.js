@@ -7,6 +7,17 @@ const removeBookBtns = document.querySelectorAll('.remove-card-btn');
 const darkThemeIcon = document.querySelector('#dark-theme-icon');
 const lightThemeIcon = document.querySelector('#light-theme-icon');
 const themeToggleBtn = document.querySelector('#theme-toggle-btn');
+const newBkDialogCheckboxControl = newBkDialog.querySelector('.checkbox-control');
+
+// Toggle checkbox with Space when checkbox control is focused
+newBkDialogCheckboxControl.addEventListener('keydown', (e) => {
+  if (e.code === 'Space' || e.key === ' ') {
+    e.preventDefault();
+    const checkboxInput = newBkDialogCheckboxControl.previousElementSibling;
+    checkboxInput.checked = !checkboxInput.checked;
+    checkboxInput.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+});
 
 themeToggleBtn.addEventListener('click', setTheme);
 
@@ -128,8 +139,8 @@ function setBookCardHTML(book) {
         <div class="card-footer">
             <section class="read">
                 <span class="read-label">Mark as <span class="status">${book.read === true ? 'unread' : 'read'}</span>:</span>
-                <label for="${book.id}" class="read-toggle">
-                    <input type="checkbox" id="${book.id}" ${book.read === true ? 'checked' : ''}>
+                <label for="${book.id}" class="read-toggle" tabindex="0">
+                    <input type="checkbox" id="${book.id}" ${book.read === true ? 'checked' : ''} tabindex="-1">
                     <span class="checkbox-control"></span>
                 </label>
             </section>
@@ -162,6 +173,9 @@ function addBookToDisplay(book) {
 function addReadToggleEventListener(book) {
   const bookCard = document.querySelector(`div.card[data-id="${book.id}"]`);
   const checkboxInput = bookCard.querySelector('.read-toggle input[type="checkbox"]');
+  const label = bookCard.querySelector('.read-toggle');
+
+  // Toggle when checkbox state changes
   checkboxInput.addEventListener('change', (e) => {
     book.toggleReadStatus();
     const statusSpan = e.target.closest('.read').querySelector('.status');
@@ -175,12 +189,23 @@ function addReadToggleEventListener(book) {
     }
     
   });
+
+  // Toggle with Space when label is focused
+  label.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' || e.key === ' ') {
+      e.preventDefault();
+      checkboxInput.checked = !checkboxInput.checked;
+      // trigger the change event
+      checkboxInput.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  });
 }
 
 function addRemoveEventListener(book) {
   const bookCard = document.querySelector(`div.card[data-id="${book.id}"]`);
   const removeBtn = bookCard.querySelector('.remove-card-btn');
   removeBtn.addEventListener('click', () => {
+    confirm('Are you sure you want to remove this book?') &&
     removeBookFromLibrary(book);
   });
 }

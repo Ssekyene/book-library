@@ -78,6 +78,10 @@ button {
     outline: none;
 }
 
+button:focus, .read-toggle:focus {
+    outline: 2px solid var(--color-primary);
+}
+
 input {
     font-family: inherit;
     font-size: 1rem;
@@ -88,6 +92,7 @@ input {
     color: var(--color-text);
     width: 100%;
 }
+
 
 svg {
     fill: var(--color-text);
@@ -184,11 +189,9 @@ dialog.bk-modal:open::backdrop {
     cursor: pointer;
 }
 
-input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    cursor: inherit;
-
+.field input[type="checkbox"] {
+    width: 0;
+    height: 0;
 }
 
 .bk-form-btns {
@@ -478,7 +481,6 @@ section.welcome {
     display: inline-block;
     position: relative;
     vertical-align: middle;
-    margin-left: 2px;
     background-color: var(--color-primary);
     transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
     cursor: pointer;

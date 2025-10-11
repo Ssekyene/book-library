@@ -14,25 +14,26 @@
             <div class="field">
                 <label for="bk-title">
                     Book Title
-                    <input type="text" id="bk-title" name="title" required>
+                    <input type="text" id="bk-title" name="title" maxlength="26" autofocus required>
                 </label>
             </div>
             <div class="field">
                 <label for="author">
                     Author
-                    <input type="text" id="author" name="author" required>
+                    <input type="text" id="author" name="author" maxlength="40" required>
                 </label>
             </div>
             <div class="field">
                 <label for="pages">
                     Number of Pages
-                    <input type="number" id="pages" name="pages" required>
+                    <input type="number" id="pages" name="pages" max="1000000" required>
                 </label>
             </div>
             <div class="field">
-                <label for="read" class="read-label">
+                <label for="read" class="read-toggle read-label">
                     Read
-                    <input type="checkbox" id="read" name="read">
+                    <input type="checkbox" id="read" name="read" tabindex="-1">
+                    <span class="checkbox-control" tabindex="0"></span>
                 </label>
             </div>
             <div class="bk-form-btns">
@@ -82,7 +83,7 @@
                         </svg>
                 </button>
             </div>
-            <div class="account">
+            <div class="account" tabindex="0">
                 <a href="https://github.com/Ssekyene" target="_blank" rel="noopener noreferrer"><img src="https://avatars.githubusercontent.com/u/111270142?v=4&size=64" alt="profile pic" class="profile-pic"></a>
             </div>
         </div>        
