@@ -37,6 +37,28 @@ if (root.className === 'theme-dark') {
   lightThemeIcon.classList.add('hidden');
 }
 
+class Book {
+  constructor(title, author, numOfPages, read) {
+    this.id = crypto.randomUUID();
+    this.title = title;
+    this.author = author;
+    this.numOfPages = numOfPages;
+    this.read = !!read;
+  }
+
+  toggleReadStatus() {
+    this.read = !this.read;
+  }
+
+  remove() {
+    const bookIndex = myLibrary.findIndex(book => book.id === this.id);
+    if (bookIndex !== -1) {
+      myLibrary.splice(bookIndex, 1);
+    }
+  }
+}
+
+
 const myLibrary = [];
 
 addBookToLibrary("48 Laws Of Power", "Robert Green", 354, true);
@@ -94,31 +116,6 @@ function removeBookFromDisplay(book) {
     bookCard.addEventListener('transitionend', () => {
         bookListSection.removeChild(bookCard);
     });
-  }
-}
-
-
-
-function Book(title, author, numOfPages, read) {
-  if(!new.target) {
-    throw Error("You must use the 'new' operator to call the constructor");
-  }
-
-  this.id = crypto.randomUUID();
-  this.title = title;
-  this.author = author;
-  this.numOfPages = numOfPages;
-  this.read = read;  
-}
-
-Book.prototype.toggleReadStatus = function () {
-  this.read = !this.read;
-}
-
-Book.prototype.remove = function() {
-  const bookIndex = myLibrary.findIndex(book => book.id === this.id);
-  if(bookIndex !== -1) {
-    myLibrary.splice(bookIndex, 1);
   }
 }
 
