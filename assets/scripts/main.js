@@ -2,18 +2,26 @@ const root = document.documentElement;
 const newBkDialog = document.querySelector('#bk-dialog');
 const newBkBtn = document.querySelector('#bk-btn');
 const bookForm = document.querySelector('#bk-form');
+
+const bookTitle = document.querySelector('#bk-title');
+const bookTitleError = document.querySelector('#bk-title + span.error');
+const author = document.querySelector('#author');
+const authorError = document.querySelector('#author + span.error');
+const numberOfPages = document.querySelector('#pages');
+const numberOfPagesError = document.querySelector('#pages + span.error');
+
 const confirmBtn = document.querySelector('#confirm-btn');
 const removeBookBtns = document.querySelectorAll('.remove-card-btn');
 const darkThemeIcon = document.querySelector('#dark-theme-icon');
 const lightThemeIcon = document.querySelector('#light-theme-icon');
 const themeToggleBtn = document.querySelector('#theme-toggle-btn');
 const newBkDialogCheckboxControl = newBkDialog.querySelector('.checkbox-control');
+const checkboxInput = newBkDialogCheckboxControl.previousElementSibling;
 
 // Toggle checkbox with Space when checkbox control is focused
 newBkDialogCheckboxControl.addEventListener('keydown', (e) => {
   if (e.code === 'Space' || e.key === ' ') {
     e.preventDefault();
-    const checkboxInput = newBkDialogCheckboxControl.previousElementSibling;
     checkboxInput.checked = !checkboxInput.checked;
     checkboxInput.dispatchEvent(new Event('change', { bubbles: true }));
   }
@@ -23,7 +31,27 @@ themeToggleBtn.addEventListener('click', setTheme);
 
 
 newBkBtn.addEventListener('click', () => {
+  // reset input controls when opening the form dialog
+  const inputs = bookForm.querySelectorAll("input");
+  inputs.forEach(input => {
+    input.value = "";
+  });
+  checkboxInput.checked = false;
+  checkboxInput.dispatchEvent(new Event('change', { bubbles: true }));
+
   newBkDialog.showModal();
+});
+
+newBkDialog.addEventListener('close', () => {
+  const errorMessages = document.querySelectorAll('span.error');
+  errorMessages.forEach(msg => {
+    msg.className = 'error';
+  });
+
+  const inputElements = bookForm.querySelectorAll('input');
+  inputElements.forEach(elem => {
+    elem.classList.remove('invalid');
+  });
 });
 
 confirmBtn.addEventListener('click', submitBookForm);
@@ -46,21 +74,131 @@ addBookToLibrary("Game of Thrones", "George RR Martin", 487, true);
 addBookToLibrary("Inside the Object", "David M. Papurt", 500, false);
 displayBooks(myLibrary);
 
+// book title validation
+bookTitle.addEventListener("input", (event) => {
+  if (bookTitle.validity.valid) {
+    clearError(bookTitle, bookTitleError);
+  } else {
+    showBookTitleError();
+  }
+});
+
+// author validation
+author.addEventListener("input", (event) => {
+  if(author.validity.valid) {
+    clearError(author, authorError)
+  } else {
+    showAuthorError();
+  }
+});
+
+// number of pages validation
+numberOfPages.addEventListener("input", (event) => {
+  if(numberOfPages.validity.valid) {
+    clearError(numberOfPages, numberOfPagesError)
+  } else {
+    showNumberOfPagesError();
+  }
+});
+
+
+function clearError(inputElement, errorSpan) {
+  errorSpan.textContent = "";
+  errorSpan.className = "error";
+  inputElement.classList.remove("invalid");
+}
+
+function showBookTitleError() {
+  if (bookTitle.validity.valueMissing) {
+    showError(bookTitle, bookTitleError, "You need to enter a book title.");
+  } else if (bookTitle.validity.tooShort) {
+    showError(bookTitle, bookTitleError, `Book title should be at least ${bookTitle.minLength} characters; you entered ${bookTitle.value.length}.`);
+  } else if (bookTitle.validity.tooLong) {
+    showError(bookTitle, bookTitleError, `Book title should be at most ${bookTitle.maxLength} characters; you entered ${bookTitle.value.length}.`);
+  }
+}
+
+function showAuthorError() {
+  if(author.validity.valueMissing) {
+    showError(author, authorError, "You need to enter an author.");
+  } else if (author.validity.tooShort) {
+    showError(author, authorError, `Author should be at least ${author.minLength} characters; you entered ${author.value.length}.`);
+  } else if (author.validity.tooLong) {
+    showError(author, authorError, `Author should be at most ${author.maxLength} characters; you entered ${author.value.length}.`);
+  }
+}
+
+function showNumberOfPagesError() {
+  if(numberOfPages.validity.valueMissing) {
+    showError(numberOfPages, numberOfPagesError, "You need to enter number of pages.");
+  } else if (numberOfPages.validity.rangeUnderflow) {
+    showError(numberOfPages, numberOfPagesError, `Number of pages should be at least ${numberOfPages.min}.`);
+  } else if (numberOfPages.validity.rangeOverflow) {
+    showError(numberOfPages, numberOfPagesError, `Number of pages should be at most ${numberOfPages.max}.`);
+  }
+}
+
+function showError(inputElement, errorSpan, message) {
+  inputElement.classList.add('invalid');
+  errorSpan.textContent = message;
+  errorSpan.className = "error active";
+}
 
 function submitBookForm(e) {
-  e.preventDefault();
+   e.preventDefault(); // stop form submission/reload
+
+  // Validate all fields
+  const isBookTitleValid = bookTitle.validity.valid;
+  const isAuthorValid = author.validity.valid;
+  const isNumberOfPagesValid = numberOfPages.validity.valid;
+
+  let hasErrors = false;
+
+  if (!isBookTitleValid) {
+    showBookTitleError();
+    hasErrors = true;
+    console.log("book title error");
+  }
+
+  if (!isAuthorValid) {
+    showAuthorError();
+    hasErrors = true;
+    console.log("author error");
+  }
+
+  if (!isNumberOfPagesValid) {
+    showNumberOfPagesError();
+    hasErrors = true;
+    console.log("pages error");
+  }
+
+  if (hasErrors) {
+    console.log("has errors");
+    return;
+  }
+
+
   if(bookForm.checkValidity()) {
+    console.log("get data");
     const formData = new FormData(bookForm);
     const title = formData.get('title');
     const author = formData.get('author');
     const numOfPages = parseInt(formData.get('pages'), 10);
-    const read = formData.get('read') === 'on' ? true : false;
+    
+    const readCheckbox = bookForm.querySelector('input[name="read"]');
+    const read = readCheckbox ? readCheckbox.checked : false;
+    
+    console.log("formData.get('read')", formData.get('read'));
+    console.log("title, author, numOfPages, read", title, author, numOfPages, read);
 
     addBookToLibrary(title, author, numOfPages, read);
-    addBookToDisplay(myLibrary[myLibrary.length - 1]);
+    const newBook = myLibrary[myLibrary.length - 1];
+    addBookToDisplay(newBook);
+
+    // console.log("read status", newBook.read);
+
     newBkDialog.close();
     bookForm.reset();
-    addReadToggleEventListeners();
   } else {
     bookForm.reportValidity();
   }

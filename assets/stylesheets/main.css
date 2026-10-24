@@ -571,3 +571,38 @@ footer .project-details a {
 footer .project-details a:hover {
     text-decoration: underline;
 }
+
+/* invalid fields */
+input:user-invalid, input.invalid, select.invalid, select:user-invalid {
+  border-color: #990000;
+}
+
+input:focus:user-invalid, input:focus.invalid, select:focus.invalid, select:focus:user-invalid {
+  outline: none;
+}
+
+/* error message styles */
+.error {
+    display: none;
+    width: 100%;
+    padding: 0.2em;
+
+    font-size: 69%;
+    color: #990000;
+
+    margin-top: -1em;
+    margin-bottom: 0.5em;
+}
+
+.error.active {
+    display: block;
+}
+
+select {
+    appearance: auto;
+}
+
+.required-indicator {
+    color: var(--color-danger);
+    font-weight: 600;
+}
